@@ -1,0 +1,28 @@
+{% load comments %}
+{% block content %}
+    <p>{{ post.created_date  }}</p>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text }}</p>    
+{% get_comment_list for blog.post post.pk as comment_list %}
+{% for comment in comment_list %}
+<p>Posted by: {{ comment.user_name }} on {{ comment.submit_date }}</p>
+<p>Comment: {{ comment.comment }}</p>
+{% endfor %}
+<div>
+{% if user.is_authenticated %}
+    {% get_comment_form for post as form %}
+    <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    {{ form.comment }}  
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input type="submit" value="Add comment" id="id_submit" />
+    </form>
+{% else %}
+    <p>Please <a href="{% url 'signup' %}">log in</a> to leave a comment.</p>
+{% endif %}
+</div>
+
+{% endblock %}

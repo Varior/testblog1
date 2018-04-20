@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% for post in object_list %}
+	<div id="main" class="col-sm-12">
+        <p>{{ post.created_date }}</p>
+        <h2><a href="blog\{{ post.id }}">{{ post.title }}</a></h2>
+        <p>{{ post.text }}</p>
+	</div>
+    {% empty %}
+    <p>Empty</p>
+    {% endfor %}
+{% endblock %}
